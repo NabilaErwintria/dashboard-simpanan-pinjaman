@@ -1,0 +1,20 @@
+# Simpan sebagai .github/workflows/update.yml di repositori GitHub (private)
+name: Update data SEKDA
+on:
+  schedule:
+    - cron: "0 2 * * 1,4"   # Senin & Kamis 09:00 WIB
+  workflow_dispatch: {}
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.11" }
+      - run: pip install -r requirements.txt
+      - run: python update_pipeline.py
+        env:
+          GSHEET_ID: ${{ secrets.GSHEET_ID }}
+          GCP_SA_JSON: ${{ secrets.GCP_SA_JSON }}
+          SEKDA_II04_URL: ${{ secrets.SEKDA_II04_URL }}
+          SEKDA_II15_URL: ${{ secrets.SEKDA_II15_URL }}

@@ -1,0 +1,5 @@
+pandas
+openpyxl
+requests
+gspread>=6
+google-auth
